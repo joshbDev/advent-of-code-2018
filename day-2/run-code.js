@@ -8,7 +8,6 @@ const inputCleaned = input.split('\n');
 let hasTwo = 0;
 let hasThree = 0;
 inputCleaned.forEach(item => {
-  console.log(item.split(''));
   const itemCount = item.split('').reduce((prev, curr) => {
     if (!prev[curr]) {
       prev[curr] = 1;
@@ -17,14 +16,10 @@ inputCleaned.forEach(item => {
     prev[curr] = prev[curr] + 1;
     return prev;
   }, {});
-  const hasTwoStr = !!Object.values(itemCount).filter(i => i === 2).length;
-  const hasThreeStr = !!Object.values(itemCount).filter(i => i === 3).length;
-  if (hasThreeStr) {
-    hasThree++;
-  }
-  if (hasTwoStr) {
-    hasTwo++;
-  }
+  const hasTwoStr = !!Object.values(itemCount).includes(2);
+  const hasThreeStr = !!Object.values(itemCount).includes(3);
+  if (hasThreeStr) {hasThree++;}
+  if (hasTwoStr) {hasTwo++;}
 });
 
 //PT 2
