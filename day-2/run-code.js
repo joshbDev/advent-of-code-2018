@@ -16,8 +16,8 @@ inputCleaned.forEach(item => {
     prev[curr] = prev[curr] + 1;
     return prev;
   }, {});
-  const hasTwoStr = !!Object.values(itemCount).includes(2);
-  const hasThreeStr = !!Object.values(itemCount).includes(3);
+  const hasTwoStr = Object.values(itemCount).includes(2);
+  const hasThreeStr = Object.values(itemCount).includes(3);
   if (hasThreeStr) {hasThree++;}
   if (hasTwoStr) {hasTwo++;}
 });
