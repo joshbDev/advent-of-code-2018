@@ -21,7 +21,7 @@ function parseInputs(str) {
   }
 }
 
-let first = [];
+let unblocked = [];
 let allBlockers = new Set();
 const map = inputCleaned.reduce((acc, str) => {
   const { blocker, key } = parseInputs(str);
@@ -35,9 +35,32 @@ const map = inputCleaned.reduce((acc, str) => {
 }, {});
 for(let el of allBlockers) {
   if(!map[el]) {
-    first.push(el)
+    unblocked.push(el);
   }
 }
-console.log(first.sort());
+unblocked.sort();
+const unBlockQueue = [unblocked.shift()];
+allBlockers = Array.from(allBlockers).filter((i) => !unBlockQueue.includes(i));
+while(unblocked.length || allBlockers.length) {
+  Object.keys(map).forEach((key) => {
+    let isUnblocked = true;
+    map[key].blockers.forEach((blocker) => {
+      if (!unBlockQueue.includes(blocker)) {
+        isUnblocked = false;
+      }
+    });
+    if (isUnblocked && !unblocked.includes(key) && !unBlockQueue.includes(key)) {
 
-
+      unblocked.push(key);
+    }
+  });
+  unblocked.sort();
+  unBlockQueue.push(unblocked.shift());
+  allBlockers = allBlockers.filter((i) => !unBlockQueue.includes(i));
+}
+Object.keys(map).forEach((key) => {
+  if (!unBlockQueue.includes(key)) {
+    unblocked.push(key);
+  }
+})
+console.log([...unBlockQueue, ...unblocked].join(''));
